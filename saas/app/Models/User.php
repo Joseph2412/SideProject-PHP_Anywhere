@@ -6,11 +6,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
+use Filament\Panel;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +26,15 @@ class User extends Authenticatable
         'password',
         'role',
     ];
+
+    public function canAccesPanel(Panel $panel): bool
+    {
+        return match ($panel->getId()) {
+            'admin' => $this->role === 'Admin',
+            "host" => $this->role === 'Host',
+            default => false,
+        };
+    }
 
     /**
      * The attributes that should be hidden for serialization.

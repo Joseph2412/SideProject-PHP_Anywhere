@@ -12,7 +12,7 @@ class Auth
     {
         $user = $request->user();
 
-        if ($user->role !== 'admin') {
+        if ($user->role !== 'Admin') {
             abort(403);
         }
         return $next($request);
