@@ -15,7 +15,7 @@ class UserPolicy
     public function viewAny(User $user): bool
     {
         // Solo ADMIN può accedere alla lista utenti
-        return $user->role === "Admin";
+        return $user->role==='Admin';
     }
 
     /**
@@ -24,12 +24,12 @@ class UserPolicy
     public function view(User $user, User $model): bool
     {
         // L'ADMIN può vedere chiunque
-        if ($user->role === 'Admin') {
+        if ($user->role==='Admin') {
             return true;
         }
 
         // Un HOST può vedere solo sé stesso
-        if ($user->role === 'Host') {
+        if ($user->role==='Host') {
             return $user->id === $model->id;
         }
 
@@ -41,7 +41,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole('ADMIN');
+        return $user->role==='Admin';
     }
 
     /**
@@ -49,7 +49,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->hasRole('ADMIN');
+        return $user->role==='Admin';
     }
 
     /**
@@ -57,7 +57,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->hasRole('ADMIN');
+        return $user->role==='Admin';
     }
 
     /**
@@ -66,6 +66,6 @@ class UserPolicy
      */
     public function viewLogs(User $user): bool
     {
-        return $user->hasRole('ADMIN');
+        return $user->role==='Admin';
     }
 }
