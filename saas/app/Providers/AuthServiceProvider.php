@@ -25,11 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Se usi Gates personalizzati, puoi definirli qui:
-        /*
-        Gate::define('view-dashboard', function (User $user) {
-            return $user->hasRole('ADMIN');
+        Gate::before(function($user, $ability){
+            return $user->role==="Admin" ? true : null;
         });
-        */
     }
 }

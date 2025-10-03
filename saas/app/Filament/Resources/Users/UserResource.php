@@ -25,7 +25,8 @@ class UserResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Auth::user()?->role === 'Admin';
+        $u = auth()->user();
+        return $u->role === "Admin" ?? false;
     }
     public static function form(Schema $schema): Schema
     {

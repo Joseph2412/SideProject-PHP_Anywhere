@@ -2,22 +2,17 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Filament\Http\Middleware\Authenticate; 
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Filament\Pages; // 
+use App\Http\Middleware\HostOnly;
 
 class HostPanelProvider extends PanelProvider
 {
@@ -25,33 +20,33 @@ class HostPanelProvider extends PanelProvider
     {
         return $panel
             ->id('host')
-            ->path('host')
-            ->colors([
-                'primary' => Color::Amber,
-            ])
-            ->discoverResources(in: app_path('Filament/Host/Resources'), for: 'App\Filament\Host\Resources')
-            ->discoverPages(in: app_path('Filament/Host/Pages'), for: 'App\Filament\Host\Pages')
-            ->pages([
-                Dashboard::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/Host/Widgets'), for: 'App\Filament\Host\Widgets')
-            ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
-            ])
+            ->path('host')                 
+            ->login(CommonLogin::class)    // Login unificato
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
-                AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\HostOnly::class, // Middleware per controllo accesso Host
             ])
             ->authMiddleware([
                 Authenticate::class,
+                HostOnly::class, 
+            ])
+            // Scopri solo le risorse/pagine del namespace Host
+            ->discoverResources(
+                in: app_path('Filament/Host/Resources'),
+                for: 'App\\Filament\\Host\\Resources'
+            )
+            ->discoverPages(
+                in: app_path('Filament/Host/Pages'),
+                for: 'App\\Filament\\Host\\Pages'
+            )
+            // Dashboard base subito disponibile
+            ->pages([
+                Pages\Dashboard::class,
             ]);
     }
 }
