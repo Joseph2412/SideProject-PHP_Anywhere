@@ -20,7 +20,6 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Http\Middleware\Auth;
-use App\Filament\Auth\CommonLogin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login(CommonLogin::class) // Login unificato
+            // ->login(CommonLogin::class) // Login unificato
             ->colors([
                 'primary' => Color::Amber,            
             ])
