@@ -21,7 +21,6 @@ class HostPanelProvider extends PanelProvider
         return $panel
             ->id('host')
             ->path('host')                 
-            // ->login(CommonLogin::class)    // Login unificato
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
