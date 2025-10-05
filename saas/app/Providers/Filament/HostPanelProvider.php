@@ -13,6 +13,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Filament\Pages; // 
 use App\Http\Middleware\HostOnly;
+use Filament\Pages\Dashboard;
 
 class HostPanelProvider extends PanelProvider
 {
@@ -45,7 +46,6 @@ class HostPanelProvider extends PanelProvider
             )
             // Dashboard base subito disponibile
             ->pages([
-                Pages\Dashboard::class,
             ]);
     }
 }

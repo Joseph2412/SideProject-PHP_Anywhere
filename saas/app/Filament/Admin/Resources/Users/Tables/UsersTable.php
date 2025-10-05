@@ -6,7 +6,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Table;
-use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+
 
 class UsersTable
 {
@@ -14,15 +15,15 @@ class UsersTable
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Nome')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('role')
+                TextColumn::make('role')
                     ->label('Ruolo')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
