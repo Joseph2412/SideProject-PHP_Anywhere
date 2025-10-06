@@ -59,4 +59,26 @@ class User extends Authenticatable
             'role' => 'string',
         ];
     }
+
+    // Relazioni
+    public function coworkings()
+    {
+        return $this->hasMany(Coworking::class, 'host_id');
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    // Helper methods
+    public function isHost()
+    {
+        return $this->role === 'Host';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'Admin';
+    }
 }

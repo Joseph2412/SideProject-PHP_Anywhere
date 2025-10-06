@@ -11,9 +11,9 @@ use App\Filament\Host\Resources\Coworkings\Schemas\CoworkingInfolist;
 use App\Filament\Host\Resources\Coworkings\Tables\CoworkingsTable;
 use App\Models\Coworking;
 use BackedEnum;
+use Filament\Support\Icons\Heroicon;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +23,7 @@ class CoworkingResource extends Resource
 {
     protected static ?string $model = Coworking::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice;
 
     protected static ?string $recordTitleAttribute = 'name';
 

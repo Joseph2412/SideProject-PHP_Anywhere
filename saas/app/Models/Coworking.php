@@ -43,4 +43,36 @@ class Coworking extends Model
     {
         return $this->belongsTo(User::class, 'host_id');
     }
+
+    // Relazione con le prenotazioni
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    // Metodi utili per le prenotazioni
+    public function activeBookings()
+    {
+        return $this->bookings()->active();
+    }
+
+    public function todayBookings()
+    {
+        return $this->bookings()->today();
+    }
+
+    public function upcomingBookings()
+    {
+        return $this->bookings()->upcoming();
+    }
+
+    public function getAvailabilityForDate($date)
+    {
+        $bookings = $this->bookings()
+            ->whereDate('booking_date', $date)
+            ->where('status', '!=', 'cancelled')
+            ->get();
+
+        return $bookings;
+    }
 }
