@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Filament\Notifications\Notification;
 use Livewire\Attributes\Validate;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginPage extends Component
 {
@@ -27,6 +29,23 @@ class LoginPage extends Component
     public function login()
     {
         $this->validate();
+
+        $user = User::where('email', $this->email)->first();
+
+        if(!$user) {
+            $this->addError('email', 'Nessun account trovato con questa email.');
+            return;
+        }
+
+         if (!\Illuminate\Support\Facades\Hash::check($this->password, $user->password)) {
+        $this->addError('password', 'Password non corretta');
+            return;
+        }
+
+        Auth::login($user);
+        session()->regenerate();
+        return redirect($this->redirectToRole());
+
 
         $credentials = [
             'email' => $this->email,
