@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Auth;
 
 class WelcomeWidget extends Widget
 {
-    protected string $view = 'filament.host.widgets.welcome-widget';
+    protected string $view = 'filament.widgets.welcome-widget';
     
     protected int | string | array $columnSpan = 'full';
     
     protected static ?int $sort = -10; // Per metterlo in cima
     
-    public function getUserData(): array
+    protected function getViewData(): array
     {
         $user = Auth::user();
         
@@ -24,6 +24,11 @@ class WelcomeWidget extends Widget
             'greeting' => $this->getGreeting(),
             'current_time' => now()->format('d/m/Y - H:i'),
         ];
+    }
+    
+    public function getUserData(): array
+    {
+        return $this->getViewData();
     }
     
     private function getGreeting(): string
@@ -37,5 +42,10 @@ class WelcomeWidget extends Widget
         } else {
             return 'Buonasera';
         }
+    }
+
+    public static function canView(): bool
+    {
+        return Auth::check() && Auth::user()->role === 'Host';
     }
 }

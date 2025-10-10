@@ -88,6 +88,6 @@ class RecentBookingsWidget extends TableWidget
 
     public static function canView(): bool
     {
-        return Auth::check() && Auth::user()->role === 'host';
+        return Auth::check() && Auth::user()->role === 'Host';
     }
 }

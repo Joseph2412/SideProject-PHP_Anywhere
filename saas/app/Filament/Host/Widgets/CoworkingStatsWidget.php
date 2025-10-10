@@ -68,4 +68,9 @@ class CoworkingStatsWidget extends BaseWidget
                 ->color('warning'),
         ];
     }
+
+    public static function canView(): bool
+    {
+        return \Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->role === 'Host';
+    }
 }

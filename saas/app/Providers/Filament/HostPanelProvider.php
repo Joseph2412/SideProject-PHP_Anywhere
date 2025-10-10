@@ -44,8 +44,19 @@ class HostPanelProvider extends PanelProvider
                 in: app_path('Filament/Host/Pages'),
                 for: 'App\\Filament\\Host\\Pages'
             )
-            // Dashboard base subito disponibile
+            // Usa la dashboard standard di Filament
             ->pages([
+                Dashboard::class,
+            ])
+            // Scopri e configura i widget per gli Host
+            ->discoverWidgets(
+                in: app_path('Filament/Host/Widgets'),
+                for: 'App\\Filament\\Host\\Widgets'
+            )
+            ->widgets([
+                \App\Filament\Host\Widgets\WelcomeWidget::class,
+                \App\Filament\Host\Widgets\CoworkingStatsWidget::class,
+                \App\Filament\Host\Widgets\RecentBookingsWidget::class,
             ]);
     }
 }
