@@ -5,6 +5,7 @@ namespace App\Filament\Host\Resources\Coworkings\Pages;
 use App\Filament\Host\Resources\Coworkings\CoworkingResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CreateCoworking extends CreateRecord
 {

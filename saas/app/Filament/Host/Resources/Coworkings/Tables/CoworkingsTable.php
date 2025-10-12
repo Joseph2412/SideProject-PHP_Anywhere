@@ -60,14 +60,20 @@ class CoworkingsTable
                     ->label('Creato il')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
-                ImageColumn::make('main_image')
+                ImageColumn::make('images')
                 ->label('Foto')
                 ->disk('s3')
                 ->height(50)
                 ->width(70)
                 ->defaultImageUrl(url('/images/placeholder.jpg'))
                 ->circular(false)
-                ->square(),
+                ->square()
+                ->getStateUsing(function ($record) {
+                    // Prendi la prima immagine dall'array JSON
+                    return $record->images && is_array($record->images) && count($record->images) > 0 
+                        ? $record->images[0] 
+                        : null;
+                }),
             ])
             ->filters([
                 TrashedFilter::make(),

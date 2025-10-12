@@ -9,6 +9,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Schemas\Components\Fieldset;
+use Illuminate\Support\Facades\Storage;
 
 class CoworkingInfolist
 {
@@ -56,21 +57,35 @@ class CoworkingInfolist
                     ->label("Servizi")
                     ->formatStateUsing(fn (string $state): string => str_replace(',', ', ', $state)),
 
-                Fieldset::make('Gallery Immagini')
+                Fieldset::make('Galleria Immagini')
                     ->schema([
-                        RepeatableEntry::make('images')
-                            ->schema([
-                                ImageEntry::make('path')
-                                    ->label('')
-                                    ->disk('s3')
-                                    ->height(200)
-                                    ->width(300),
-                                TextEntry::make('caption')
-                                    ->label('Descrizione')
-                                    ->placeholder('Nessuna descrizione'),
-                            ])
-                            ->grid(3)
-                            ->columns(1)
+                        TextEntry::make('images')
+                            ->label('')
+                            ->formatStateUsing(function ($state, $record) {
+                                if (!$state || !is_array($state) || empty($state)) {
+                                    return 'Nessuna immagine caricata';
+                                }
+                                
+                                $html = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">';
+                                foreach ($state as $imagePath) {
+                                    // Costruisci URL S3 manualmente se necessario
+                                    $bucket = config('filesystems.disks.s3.bucket');
+                                    $region = config('filesystems.disks.s3.region');
+                                    $imageUrl = "https://{$bucket}.s3.{$region}.amazonaws.com/{$imagePath}";
+                                    
+                                    $html .= '<div class="aspect-square">
+                                        <img src="' . $imageUrl . '" 
+                                             class="w-full h-full object-cover rounded-lg border border-gray-200" 
+                                             alt="Immagine coworking" 
+                                             style="max-height: 200px;" />
+                                    </div>';
+                                }
+                                $html .= '</div>';
+                                
+                                return $html;
+                            })
+                            ->html()
+                            ->columnSpanFull(),
                     ])
             ]);
                 

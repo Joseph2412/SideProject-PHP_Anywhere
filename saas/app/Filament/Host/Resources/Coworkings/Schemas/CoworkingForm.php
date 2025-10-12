@@ -8,8 +8,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
 use Filament\Schemas\Components\Fieldset;
+use Illuminate\Support\Facades\Log;
 
 class CoworkingForm
 {
@@ -77,36 +77,32 @@ class CoworkingForm
 
                 Fieldset::make("Galleria Immagini")
                     ->schema([
-                        Repeater::make('images')
-                            ->relationship('images')
-                            ->schema([
-                                FileUpload::make('path')
-                                    ->label('Immagine')
-                                    ->image()
-                                    ->disk('s3')
-                                    ->directory('coworkings')
-                                    ->imagePreviewHeight('150')
-                                    ->panelAspectRatio('16:9')
-                                    ->panelLayout('integrated')
-                                    ->imageResizeMode('cover')
-                                    ->imageCropAspectRatio('16:9')
-                                    ->imageResizeTargetWidth('1200')
-                                    ->imageResizeTargetHeight('675')
-                                    ->required(),
-                                    
-                                TextInput::make('caption')
-                                    ->label('Descrizione')
-                                    ->placeholder('Descrizione dell\'immagine (opzionale)')
-                                    ->maxLength(255),
-                            ])
-                            ->itemLabel(fn (array $state): ?string => $state['caption'] ?? 'Nuova immagine')
-                            ->collapsed()
-                            ->collapsible()
-                            ->addActionLabel('Aggiungi Immagine')
-                            ->reorderableWithButtons()
-                            ->maxItems(10)
-                            ->grid(2)
-                            ->columns(2)
+                        FileUpload::make('images')
+                            ->label('Immagini')
+                            ->disk('s3')
+                            ->visibility('public')
+                            ->directory('coworkings')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120) // 5MB
+                            ->maxFiles(10)
+                            ->imagePreviewHeight('200')
+                            ->panelAspectRatio('16:9')
+                            ->panelLayout('integrated')
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('16:9')
+                            ->imageResizeTargetWidth('1200')
+                            ->imageResizeTargetHeight('675')
+                            ->columnSpanFull()
+                            ->downloadable()
+                            ->openable()
+                            ->deletable()
+                            ->deleteUploadedFileUsing(function ($file) {
+                                Log::info('Tentativo di cancellazione file: ' . $file);
+                                return false; // NON cancellare mai dal bucket
+                            }),
                     ])
             ]); 
     }

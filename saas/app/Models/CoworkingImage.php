@@ -47,4 +47,31 @@ class CoworkingImage extends Model
         // Fallback su storage pubblico locale
         return asset('storage/' . $this->path);
     }
+
+    /**
+     * Boot method per tracciare cancellazioni
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::deleting(function ($image) {
+            Log::info('CoworkingImage sta per essere cancellata:', [
+                'id' => $image->id,
+                'path' => $image->path,
+                'coworking_id' => $image->coworking_id,
+                'stack_trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10)
+            ]);
+            
+            // NON cancellare fisicamente il file da S3
+            return true; // Permetti la cancellazione del record DB, ma non il file
+        });
+
+        static::deleted(function ($image) {
+            Log::info('CoworkingImage cancellata dal database:', [
+                'id' => $image->id,
+                'path' => $image->path
+            ]);
+        });
+    }
 }
