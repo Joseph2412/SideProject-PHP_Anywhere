@@ -1,8 +1,14 @@
 <?php
 
 namespace App\Filament\Host\Resources\Coworkings\Schemas;
+
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Schemas\Components\Fieldset;
 
 class CoworkingInfolist
 {
@@ -49,8 +55,24 @@ class CoworkingInfolist
                 TextEntry::make("amenities")
                     ->label("Servizi")
                     ->formatStateUsing(fn (string $state): string => str_replace(',', ', ', $state)),
-                
-                
+
+                Fieldset::make('Gallery Immagini')
+                    ->schema([
+                        RepeatableEntry::make('images')
+                            ->schema([
+                                ImageEntry::make('path')
+                                    ->label('')
+                                    ->disk('s3')
+                                    ->height(200)
+                                    ->width(300),
+                                TextEntry::make('caption')
+                                    ->label('Descrizione')
+                                    ->placeholder('Nessuna descrizione'),
+                            ])
+                            ->grid(3)
+                            ->columns(1)
+                    ])
             ]);
+                
     }
 }

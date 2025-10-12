@@ -75,4 +75,21 @@ class Coworking extends Model
 
         return $bookings;
     }
+
+    public function images()
+    {
+        return $this->hasMany(CoworkingImage::class);
+    }
+
+    //Ottiene la prima immagine come Immagine Principale della Galleria
+    public function getMainImageAttribute()
+    {
+        return $this->images()->first()->url ?? null;
+    }
+     
+    //Ottiene la URL della prima immagine come Immagine Principale della Galleria
+    public function getMainImageUrlAttribute(): ?string
+    {
+        return $this->images()->first()?->url;
+    }
 }

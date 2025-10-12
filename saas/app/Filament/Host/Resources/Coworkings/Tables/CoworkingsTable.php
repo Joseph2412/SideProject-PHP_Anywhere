@@ -11,6 +11,7 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 
 class CoworkingsTable
 {
@@ -59,6 +60,14 @@ class CoworkingsTable
                     ->label('Creato il')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
+                ImageColumn::make('main_image')
+                ->label('Foto')
+                ->disk('s3')
+                ->height(50)
+                ->width(70)
+                ->defaultImageUrl(url('/images/placeholder.jpg'))
+                ->circular(false)
+                ->square(),
             ])
             ->filters([
                 TrashedFilter::make(),

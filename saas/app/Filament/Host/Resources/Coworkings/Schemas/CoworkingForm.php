@@ -6,6 +6,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Fieldset;
 
 class CoworkingForm
 {
@@ -70,6 +74,40 @@ class CoworkingForm
                     ])
                     ->default('inactive')
                     ->required(),
-            ]);
+
+                Fieldset::make("Galleria Immagini")
+                    ->schema([
+                        Repeater::make('images')
+                            ->relationship('images')
+                            ->schema([
+                                FileUpload::make('path')
+                                    ->label('Immagine')
+                                    ->image()
+                                    ->disk('s3')
+                                    ->directory('coworkings')
+                                    ->imagePreviewHeight('150')
+                                    ->panelAspectRatio('16:9')
+                                    ->panelLayout('integrated')
+                                    ->imageResizeMode('cover')
+                                    ->imageCropAspectRatio('16:9')
+                                    ->imageResizeTargetWidth('1200')
+                                    ->imageResizeTargetHeight('675')
+                                    ->required(),
+                                    
+                                TextInput::make('caption')
+                                    ->label('Descrizione')
+                                    ->placeholder('Descrizione dell\'immagine (opzionale)')
+                                    ->maxLength(255),
+                            ])
+                            ->itemLabel(fn (array $state): ?string => $state['caption'] ?? 'Nuova immagine')
+                            ->collapsed()
+                            ->collapsible()
+                            ->addActionLabel('Aggiungi Immagine')
+                            ->reorderableWithButtons()
+                            ->maxItems(10)
+                            ->grid(2)
+                            ->columns(2)
+                    ])
+            ]); 
     }
 }

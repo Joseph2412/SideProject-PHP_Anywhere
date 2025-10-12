@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 class RecentBookingsWidget extends TableWidget
 {
+    protected static bool $isLazy = true;
+
     protected static ?string $heading = 'Ultime 5 Prenotazioni';
     
     protected int | string | array $columnSpan = 'full';
@@ -31,12 +33,12 @@ class RecentBookingsWidget extends TableWidget
             ->columns([
                 TextColumn::make('costumer_name')
                     ->label('Cliente')
-                    ->searchable()
+                    ->searchable(false)
                     ->weight('medium'),
                     
                 TextColumn::make('coworking.name')
                     ->label('Coworking')
-                    ->searchable()
+                    ->searchable(false)
                     ->limit(20),
                     
                 TextColumn::make('booking_date')
@@ -80,7 +82,7 @@ class RecentBookingsWidget extends TableWidget
             ])
             ->defaultSort('created_at', 'desc')
             ->paginated(false)
-            ->searchable()
+            ->searchable(false)
             ->emptyStateHeading('Nessuna prenotazione')
             ->emptyStateDescription('Non hai ancora ricevuto prenotazioni per i tuoi coworking.')
             ->emptyStateIcon('heroicon-o-calendar-x-mark');

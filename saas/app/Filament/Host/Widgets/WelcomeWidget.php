@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class WelcomeWidget extends Widget
 {
+    protected static bool $isLazy = true;
+    
     protected string $view = 'filament.widgets.welcome-widget';
     
     protected int | string | array $columnSpan = 'full';
