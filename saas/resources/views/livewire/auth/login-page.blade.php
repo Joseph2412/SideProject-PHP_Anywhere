@@ -44,7 +44,12 @@
                     <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
                         Non hai un account? Registrati
                     </a>
+                </div>
+                <div class="text-sm text-center">
+                    <a href="{{ route('password.request') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        Hai dimenticato la password?
+                    </a>
+                </div>
             </form>
         </div>
     </div>
-</div>

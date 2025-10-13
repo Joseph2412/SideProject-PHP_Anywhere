@@ -3,7 +3,9 @@
 use App\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Livewire\Auth\ForgotPasswordPage;
 use App\Livewire\Auth\RegisterPage;
+use App\Livewire\Auth\ResetPasswordPage;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -19,10 +21,6 @@ Route::get('/login', LoginPage::class)->name('login');
 
 Route::get('/register', RegisterPage::class)->name('register');
 
-Route::get('/forgot-password', function () {
-    return view('auth.forgot-password');
-})->name('forgot-password');
+Route::get('/forgot-password', ForgotPasswordPage::class)->name('password.request');
 
-Route::get('/reset-password/{token}', function ($token) {
-    return view('auth.reset-password', ['token' => $token]);
-})->name('reset-password');
+Route::get('/reset-password/{token}', ResetPasswordPage::class)->name('password.reset');
