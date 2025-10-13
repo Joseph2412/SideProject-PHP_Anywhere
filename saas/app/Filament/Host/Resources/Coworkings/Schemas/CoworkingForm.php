@@ -78,13 +78,17 @@ class CoworkingForm
                 Fieldset::make("Galleria Immagini")
                     ->schema([
                         FileUpload::make('images')
-                            ->label('Immagini')
+                            ->label('Galleria Immagini')
                             ->disk('s3')
-                            ->visibility('public')
-                            ->directory('coworkings')
+                            ->directory('livewire-tmp')
+                            ->preserveFilenames()
                             ->image()
                             ->multiple()
+                            ->visibility('public')
+                            ->previewable()
                             ->reorderable()
+                            ->deletable()
+                            
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120) // 5MB
                             ->maxFiles(10)
@@ -101,7 +105,7 @@ class CoworkingForm
                             ->deletable()
                             ->deleteUploadedFileUsing(function ($file) {
                                 Log::info('Tentativo di cancellazione file: ' . $file);
-                                return false; // NON cancellare mai dal bucket
+                                return false; 
                             }),
                     ])
             ]); 
