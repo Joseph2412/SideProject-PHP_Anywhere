@@ -85,7 +85,7 @@ class RecentBookingsWidget extends TableWidget
             ->searchable(false)
             ->emptyStateHeading('Nessuna prenotazione')
             ->emptyStateDescription('Non hai ancora ricevuto prenotazioni per i tuoi coworking.')
-            ->emptyStateIcon('heroicon-o-calendar-x-mark');
+            ->emptyStateIcon('heroicon-o-calendar');
     }
 
     public static function canView(): bool

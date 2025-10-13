@@ -1,4 +1,9 @@
 <div>
+    @if (session('success'))
+        <div class="mb-4 text-sm text-green-700 bg-green-100 border border-green-200 rounded-md p-3">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <div>
@@ -35,6 +40,10 @@
                         Accedi
                     </button>
                 </div>
+                <div class="text-sm text-center">
+                    <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        Non hai un account? Registrati
+                    </a>
             </form>
         </div>
     </div>

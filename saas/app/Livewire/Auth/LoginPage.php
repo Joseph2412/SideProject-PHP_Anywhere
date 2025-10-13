@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Notifications\Notification;
 use Livewire\Attributes\Validate;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class LoginPage extends Component
 {
