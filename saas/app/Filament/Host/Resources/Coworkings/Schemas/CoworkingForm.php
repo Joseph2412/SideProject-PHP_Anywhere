@@ -80,11 +80,15 @@ class CoworkingForm
                         FileUpload::make('images')
                             ->label('Galleria Immagini')
                             ->disk('s3')
-                            ->directory('livewire-tmp')
-                            ->preserveFilenames()
-                            ->image()
                             ->multiple()
                             ->visibility('public')
+                            ->directory(fn ($record) => $record?->id 
+                                ? "coworkings/images/{$record->id}"
+                                : "coworkings/temp")                                
+                            ->preserveFilenames()
+                            ->moveFiles()
+                            ->image()
+                            ->multiple()
                             ->previewable()
                             ->reorderable()
                             ->deletable()

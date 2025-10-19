@@ -20,27 +20,23 @@ class CreateCoworking extends CreateRecord
         return $data;
     }
 
+    /** @noinspection PhpUndefinedFieldInspection */
     protected function afterCreate(): void
-{
-    $tmpPaths = $this->form->getState()['images'] ?? [];
+    {
+        
+        $record = $this->record; // Record appena creato
 
-    if (!is_array($tmpPaths) || empty($tmpPaths)) {
-        return;
+    $tempPath = "coworkings/temp";
+    $finalPath = "coworkings/images/{$record->id}";
+
+    $disk = Storage::disk('s3');
+
+    foreach ($disk->files($tempPath) as $file) {
+        $newPath = str_replace($tempPath, $finalPath, $file);
+        $disk->move($file, $newPath);
     }
-
-    $coworkingId = $this->record->id;
-    $newPaths = [];
-
-    foreach ($tmpPaths as $tmpPath) {
-        $newPath = "coworkings/{$coworkingId}/" . basename($tmpPath);
-        Storage::disk('s3')->move($tmpPath, $newPath);
-        $newPaths[] = $newPath;
-    }
-
-    $this->record->update([
-        'images' => $newPaths,
-    ]);
 }
+
 
 
       protected function getRedirectUrl(): string
