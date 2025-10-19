@@ -6,10 +6,11 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Components\Fieldset;
+//use Filament\Schemas\Components\Storage;
 use Illuminate\Support\Facades\Log;
+
 
 class CoworkingForm
 {
@@ -89,7 +90,8 @@ class CoworkingForm
                             ->moveFiles()
                             ->image()
                             ->multiple()
-                            ->previewable()
+                            ->previewable(true)
+                            ->downloadable()
                             ->reorderable()
                             ->deletable()
                             

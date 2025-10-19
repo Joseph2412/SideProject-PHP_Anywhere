@@ -21,7 +21,8 @@ class HostPanelProvider extends PanelProvider
     {
         return $panel
             ->id('host')
-            ->path('host')                 
+            ->path('host')
+            ->login(null)                 
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

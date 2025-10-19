@@ -4,19 +4,19 @@ namespace App\Livewire\Auth;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Filament\Notifications\Notification;
-use Livewire\Attributes\Validate;
 use App\Models\User;
 
 class LoginPage extends Component
 {
-    protected $layout = 'components.layouts.app';
-
-    #[Validate('required|email')]
     public $email = '';
-
-    #[Validate('required')]
     public $password = '';
+
+    protected $rules = [
+        'email' => 'required|email',
+        'password' => 'required',
+    ];
 
     public function mount()
     {
@@ -31,44 +31,27 @@ class LoginPage extends Component
 
         $user = User::where('email', $this->email)->first();
 
-        if(!$user) {
-            $this->addError('email', 'Nessun account trovato con questa email.');
-            return;
-        }
-
-         if (!\Illuminate\Support\Facades\Hash::check($this->password, $user->password)) {
-        $this->addError('password', 'Password non corretta');
+        if (! $user || ! Hash::check($this->password, $user->password)) {
+            Notification::make()
+                ->title('Credenziali non valide')
+                ->danger()
+                ->send();
             return;
         }
 
         Auth::login($user);
         session()->regenerate();
+
         return redirect($this->redirectToRole());
-
-
-        $credentials = [
-            'email' => $this->email,
-            'password' => $this->password
-        ];
-
-        if (Auth::attempt($credentials)) {
-            session()->regenerate();
-            return redirect($this->redirectToRole());
-        }
-
-        Notification::make()
-            ->title('Credenziali non valide')
-            ->danger()
-            ->send();
     }
 
     protected function redirectToRole(): string
     {
         $user = Auth::user();
 
-        return match (true) {
-            $user->role === 'Admin' => '/admin',
-            $user->role === 'Host' => '/host',
+        return match ($user->role) {
+            'Admin' => '/admin',
+            'Host' => '/host',
             default => '/',
         };
     }

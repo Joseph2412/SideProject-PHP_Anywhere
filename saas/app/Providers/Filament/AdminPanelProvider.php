@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            // ->login(CommonLogin::class) // Login unificato
+            ->login(null)
             ->colors([
                 'primary' => Color::Amber,            
             ])
