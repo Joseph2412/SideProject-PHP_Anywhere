@@ -57,7 +57,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-                Auth::class,
+                Auth::class . ':Admin', // Usa il middleware Auth con parametro 'Admin'
             ]);
     }
 }

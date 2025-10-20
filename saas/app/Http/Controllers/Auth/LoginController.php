@@ -31,11 +31,10 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
-        // con Spatie
-        if ($user->hasRole('admin')) {
+        if ($user->role === 'Admin') {
             return redirect()->intended('/admin');
         }
-        if ($user->hasRole('host')) {
+        if ($user->role === 'Host') {
             return redirect()->intended('/host');
         }
 

@@ -12,7 +12,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Filament\Pages; // 
-use App\Http\Middleware\HostOnly;
+use App\Http\Middleware\Auth;
 use Filament\Pages\Dashboard;
 
 class HostPanelProvider extends PanelProvider
@@ -30,11 +30,11 @@ class HostPanelProvider extends PanelProvider
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
-                \App\Http\Middleware\HostOnly::class, // Middleware per controllo accesso Host
+                \App\Http\Middleware\Auth::class, // Middleware per controllo accesso Host
             ])
             ->authMiddleware([
                 Authenticate::class,
-                HostOnly::class, 
+                Auth::class . ':Host', // Usa il middleware Auth con parametro 'Host'
             ])
             // Scopri solo le risorse/pagine del namespace Host
             ->discoverResources(
