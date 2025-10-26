@@ -25,7 +25,7 @@ class HostPanelProvider extends PanelProvider
         return $panel
             ->id('host')
             ->path('host')
-            ->login()
+            //->login() Per unificare la login tra Host e Admin
             ->colors([
                 'primary' => Color::Amber,
             ])
