@@ -23,7 +23,16 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')->label('Nome')->disabled(),
+                Forms\Components\TextInput::make('email')->label('Email')->disabled(),
+                Forms\Components\TextInput::make('role')->label('Ruolo')->disabled(),
+                Forms\Components\Placeholder::make('coworkings_list')
+                    ->label('Coworking associati')
+                    ->content(fn ($record) =>
+                        $record->coworkings->isNotEmpty()
+                            ? $record->coworkings->pluck('name')->implode('<br>')
+                            : 'Nessun coworking associato.'
+                    ),
             ]);
     }
 
