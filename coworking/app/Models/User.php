@@ -61,4 +61,12 @@ class User extends Authenticatable implements FilamentUser
 
         return false;
     }
+
+    /**
+     * Relazione: un host può avere più coworking associati
+     */
+    public function coworkings()
+    {
+        return $this->hasMany(\App\Models\Coworking::class, 'host_id');
+    }
 }
