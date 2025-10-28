@@ -45,9 +45,39 @@ class CoworkingResource extends Resource
                 Tables\Columns\TextColumn::make('address')->label('Indirizzo'),
             ])
             ->filters([
-                // puoi aggiungere filtri se necessario
+                Tables\Filters\Filter::make('name')
+                    ->label('Nome')
+                    ->form([
+                        Forms\Components\TextInput::make('value')->label('Nome'),
+                    ])
+                    ->query(fn (Builder $query, array $data) =>
+                        isset($data['value']) && $data['value'] !== ''
+                            ? $query->where('name', 'like', "%{$data['value']}%")
+                            : $query
+                    ),
+                Tables\Filters\Filter::make('address')
+                    ->label('Indirizzo')
+                    ->form([
+                        Forms\Components\TextInput::make('value')->label('Indirizzo'),
+                    ])
+                    ->query(fn (Builder $query, array $data) =>
+                        isset($data['value']) && $data['value'] !== ''
+                            ? $query->where('address', 'like', "%{$data['value']}%")
+                            : $query
+                    ),
+                Tables\Filters\Filter::make('city')
+                    ->label('Città')
+                    ->form([
+                        Forms\Components\TextInput::make('value')->label('Città'),
+                    ])
+                    ->query(fn (Builder $query, array $data) =>
+                        isset($data['value']) && $data['value'] !== ''
+                            ? $query->where('city', 'like', "%{$data['value']}%")
+                            : $query
+                    ),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
