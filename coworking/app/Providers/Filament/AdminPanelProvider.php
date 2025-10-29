@@ -7,6 +7,7 @@ use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
+use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -51,8 +52,15 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+                ->authMiddleware([
+                    Authenticate::class,
+                ])
+                ->navigationItems([
+                    NavigationItem::make()
+                        ->label('Il mio profilo')
+                        ->url('/admin/users/profile')
+                        ->group('Profilo')
+                        ->visible(fn () => \Illuminate\Support\Facades\Auth::user() && in_array(\Illuminate\Support\Facades\Auth::user()->role, ['admin', 'host'])),
+                ]);
     }
 }
