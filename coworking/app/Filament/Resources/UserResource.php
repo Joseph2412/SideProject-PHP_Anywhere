@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Forms\Components\ColorBox;
+use Faker\Core\Color;
 
 class UserResource extends Resource
 {
@@ -33,6 +35,7 @@ class UserResource extends Resource
                             ? $record->coworkings->pluck('name')->implode('<br>')
                             : 'Nessun coworking associato.'
                     ),
+                //ColorBox::make('color')
             ]);
     }
 
