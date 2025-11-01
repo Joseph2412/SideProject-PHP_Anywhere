@@ -159,6 +159,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\FilamentInfoServiceProvider::class,
+        App\Providers\FilamentThemeOverrideServiceProvider::class,
         // Add other custom providers here
     ],
 ];
