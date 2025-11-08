@@ -1,6 +1,6 @@
 <x-filament::page>
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-bold text-white dark:text-white">🎨 Filament Theme Designer</h2>
+        <h2 class="text-xl font-bold text-white dark:text-white">🎨 Filament Advanced Theme Designer</h2>
 
         <div class="flex gap-2">
             <x-filament::button wire:click="saveStyles" color="success">
@@ -89,14 +89,18 @@
         </div>
 
         <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <h4 class="font-medium text-blue-800 dark:text-blue-200 mb-2">� Best Practices Filament</h4>
+            <h4 class="font-medium text-blue-800 dark:text-blue-200 mb-2">💡 Hook Classes Filament v4</h4>
             <ul class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-                <li>• Usa le classi CSS ufficiali di Filament come base (fi-*, tw-*)</li>
-                <li>• Testa sempre in modalità chiara e scura</li>
-                <li>• Mantieni la consistenza con il design system</li>
-                <li>• Evita di sovrascrivere completamente gli stili esistenti</li>
-                <li>• Riferimento: <a href="https://filamentphp.com/docs/3.x/support/style-customization"
-                        class="underline">Documentazione ufficiale</a></li>
+                <li>• <strong>fi-ac</strong> = Actions package (pulsanti, container, wrapper)</li>
+                <li>• <strong>fi-fo</strong> = Forms package (input, textarea, checkbox, radio, toggle)</li>
+                <li>• <strong>fi-in</strong> = Infolists package (contenitori, entries)</li>
+                <li>• <strong>fi-no</strong> = Notifications package (toast, buttons)</li>
+                <li>• <strong>fi-sc</strong> = Schema/Components package (contenitori, wrapper)</li>
+                <li>• <strong>fi-ta</strong> = Tables package (table, row, cell, column)</li>
+                <li>• <strong>fi-wi</strong> = Widgets package (container, wrapper)</li>
+                <li>• <strong>btn, col, ctn, wrp</strong> = abbreviazioni per button, column, container, wrapper</li>
+                <li>• Riferimento: <a href="https://filamentphp.com/docs/4.x/styling/css-hooks"
+                        class="underline">Documentazione Hook Classes v4</a></li>
             </ul>
         </div>
     </div>
@@ -104,18 +108,42 @@
 
 @push('scripts')
     <script>
-        console.log('Theme Designer Script caricato');
+        console.log('Advanced Theme Designer Script caricato');
 
-        // Backup listener per eventi Livewire (se necessario)
+        // Listener per aggiornamento preview in tempo reale
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('textarea[wire\\:model\\.defer*="componentStyles"]')) {
+                const key = e.target.getAttribute('wire:model.defer').match(/componentStyles\.(.+?)\.css/)[1];
+                const css = e.target.value;
+
+                // Applica il CSS alla preview se esiste
+                const previewContainer = document.querySelector(`.preview-${key}`);
+                if (previewContainer) {
+                    // Rimuovi style precedente se esiste
+                    const existingStyle = document.getElementById(`preview-style-${key}`);
+                    if (existingStyle) {
+                        existingStyle.remove();
+                    }
+
+                    // Crea nuovo style
+                    const style = document.createElement('style');
+                    style.id = `preview-style-${key}`;
+                    style.innerHTML = `.preview-${key} * { ${css} }`;
+                    document.head.appendChild(style);
+                }
+            }
+        });
+
+        // Backup listener per eventi Livewire
         document.addEventListener('livewire:init', () => {
-            console.log('Livewire inizializzato per Theme Designer');
+            console.log('Livewire inizializzato per Advanced Theme Designer');
 
             Livewire.on('reload-page', (event) => {
-                console.log('Evento reload-page ricevuto!');
+                console.log('Evento reload-page ricevuto:', event);
                 setTimeout(() => {
-                    console.log('Ricaricando la pagina...');
+                    console.log('Ricaricamento pagina...');
                     window.location.reload();
-                }, 1000);
+                }, 500);
             });
         });
     </script>
