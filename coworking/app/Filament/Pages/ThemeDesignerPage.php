@@ -98,28 +98,46 @@ class ThemeDesignerPage extends Page
     
     public function saveStyles(): void
     {
-        $stylePath = storage_path('app/filament-custom-theme.json');
-        $cssPath = storage_path('app/filament-custom-theme.css');
-        
-        // Estrai solo i CSS dai componentStyles
-        $cssData = [];
-        foreach ($this->componentStyles as $key => $component) {
-            if (!empty(trim($component['css']))) {
-                $cssData[$key] = $component['css'];
+        try {
+            $stylePath = storage_path('app/filament-custom-theme.json');
+            $cssPath = storage_path('app/filament-custom-theme.css');
+            
+            // Estrai solo i CSS dai componentStyles
+            $cssData = [];
+            foreach ($this->componentStyles as $key => $component) {
+                if (!empty(trim($component['css']))) {
+                    $cssData[$key] = $component['css'];
+                }
             }
+            
+            // Salva il JSON
+            File::put($stylePath, json_encode($cssData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            
+            // Genera il CSS seguendo le convenzioni Filament
+            $this->generateFilamentCss($cssData, $cssPath);
+            
+            // Notifica di successo
+            Notification::make()
+                ->title('🎨 Tema personalizzato salvato!')
+                ->body('Ricaricamento in corso...')
+                ->success()
+                ->send();
+                
+            // Approccio diretto con JavaScript - più affidabile
+            $this->js('
+                setTimeout(() => {
+                    console.log("Ricaricamento forzato dal PHP...");
+                    window.location.reload();
+                }, 1000);
+            ');
+            
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Errore nel salvataggio del tema')
+                ->body($e->getMessage())
+                ->danger()
+                ->send();
         }
-        
-        // Salva il JSON
-        File::put($stylePath, json_encode($cssData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        
-        // Genera il CSS seguendo le convenzioni Filament
-        $this->generateFilamentCss($cssData, $cssPath);
-        
-        Notification::make()
-            ->title('🎨 Tema personalizzato salvato!')
-            ->body('Gli stili sono stati applicati seguendo le best practices di Filament.')
-            ->success()
-            ->send();
     }
     
     private function generateFilamentCss(array $styles, string $cssPath): void
@@ -228,12 +246,8 @@ class ThemeDesignerPage extends Page
                 }
             }
             
+            // Salva e ricarica con lo stesso meccanismo
             $this->saveStyles();
-            
-            Notification::make()
-                ->title("🎨 Preset '{$presetName}' applicato!")
-                ->success()
-                ->send();
         }
     }
 }

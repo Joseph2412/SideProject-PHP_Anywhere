@@ -101,3 +101,22 @@
         </div>
     </div>
 </x-filament::page>
+
+@push('scripts')
+    <script>
+        console.log('Theme Designer Script caricato');
+
+        // Backup listener per eventi Livewire (se necessario)
+        document.addEventListener('livewire:init', () => {
+            console.log('Livewire inizializzato per Theme Designer');
+
+            Livewire.on('reload-page', (event) => {
+                console.log('Evento reload-page ricevuto!');
+                setTimeout(() => {
+                    console.log('Ricaricando la pagina...');
+                    window.location.reload();
+                }, 1000);
+            });
+        });
+    </script>
+@endpush
