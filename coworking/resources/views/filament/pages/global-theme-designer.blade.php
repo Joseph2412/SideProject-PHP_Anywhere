@@ -42,17 +42,17 @@
                     Gli stili vengono applicati globalmente con alta priorità (!important) per sovrascrivere i temi
                     predefiniti di Filament.
                 </p>
-                <p class="text-xs text-blue-700 dark:text-blue-300 mt-2">
+                {{-- <p class="text-xs text-blue-700 dark:text-blue-300 mt-2">
                     📚 Documentazione ufficiale:
                     <a href="https://filamentphp.com/docs/4.x/styling/css-hooks" target="_blank"
                         class="underline hover:no-underline">
                         CSS Hooks Filament v4
                     </a>
-                </p>
+                </p> --}}
             </div>
         </div>
 
-        {{-- Statistiche rapide --}}
+        {{-- Statistiche rapide
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             @php
                 $totalComponents = count($this->componentStyles);
@@ -90,7 +90,7 @@
                 <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ $averageSelectors }}</div>
                 <div class="text-sm text-orange-800 dark:text-orange-300">Media per componente</div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- Filtro di ricerca --}}
         <div class="mb-6">
@@ -274,7 +274,7 @@
                                     <div class="text-sm">Prova con termini di ricerca diversi</div>
                                 `;
                                 document.getElementById('components-list').appendChild(
-                                noResultsMsg);
+                                    noResultsMsg);
                             }
                             noResultsMsg.style.display = 'block';
                         } else if (noResultsMsg) {
