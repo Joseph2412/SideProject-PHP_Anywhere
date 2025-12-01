@@ -6,12 +6,12 @@ Questo pacchetto contiene tutti i file necessari per integrare il **Theme Design
 
 ## 🎯 Funzionalità
 
-- ✅ **Personalizzazione globale** di tutti i componenti Filament
-- ✅ **Hook Classes** complete secondo le specifiche Filament v4
-- ✅ **Anteprima live** delle modifiche
-- ✅ **Preset veloci** (Dark Mode, Colorful, Minimal)
-- ✅ **Persistenza** automatica dei temi
-- ✅ **Alta specificità CSS** con `!important` automatico
+-   ✅ **Personalizzazione globale** di tutti i componenti Filament
+-   ✅ **Hook Classes** complete secondo le specifiche Filament v4
+-   ✅ **Anteprima live** delle modifiche
+-   ✅ **Preset veloci** (Dark Mode, Colorful, Minimal)
+-   ✅ **Persistenza** automatica dei temi
+-   ✅ **Alta specificità CSS** con `!important` automatico
 
 ## 📁 File Essenziali per l'Integrazione
 
@@ -33,9 +33,11 @@ resources/
 ## ⚡ Installazione Rapida
 
 ### 1. Copia i file
+
 Copia i 3 file essenziali nella struttura corrispondente del tuo progetto.
 
 ### 2. Registra il Service Provider
+
 Aggiungi in `bootstrap/providers.php`:
 
 ```php
@@ -48,6 +50,7 @@ return [
 ```
 
 **O** in `config/app.php` (Laravel 10 e precedenti):
+
 ```php
 'providers' => [
     // ... altri providers
@@ -56,6 +59,7 @@ return [
 ```
 
 ### 3. Aggiungi la Page al tuo Panel Provider
+
 Nel tuo `AdminPanelProvider.php` (o altro panel):
 
 ```php
@@ -73,6 +77,7 @@ public function panel(Panel $panel): Panel
 ```
 
 ### 4. Verifica dipendenze composer.json
+
 Assicurati di avere:
 
 ```json
@@ -95,38 +100,42 @@ Assicurati di avere:
 
 Il Theme Designer copre **TUTTI** i componenti Filament principali:
 
-- **🎬 Actions**: Pulsanti (create, edit, delete, view)
-- **📝 Forms**: Input, textarea, checkbox, radio, toggle, file upload
-- **📊 Tables**: Tabelle, righe, celle, colonne  
-- **📋 Infolists**: Contenitori ed entries
-- **🔔 Notifications**: Toast e notifiche
-- **📈 Widgets**: Contenitori e wrapper
-- **🧭 Layout**: Navigation, cards, header
+-   **🎬 Actions**: Pulsanti (create, edit, delete, view)
+-   **📝 Forms**: Input, textarea, checkbox, radio, toggle, file upload
+-   **📊 Tables**: Tabelle, righe, celle, colonne
+-   **📋 Infolists**: Contenitori ed entries
+-   **🔔 Notifications**: Toast e notifiche
+-   **📈 Widgets**: Contenitori e wrapper
+-   **🧭 Layout**: Navigation, cards, header
 
 ## 🎨 Hook Classes Supportate
 
 Segue le convenzioni ufficiali Filament v4:
-- `fi-ac` = Actions package
-- `fi-fo` = Forms package  
-- `fi-ta` = Tables package
-- `fi-in` = Infolists package
-- `fi-no` = Notifications package
-- `fi-wi` = Widgets package
+
+-   `fi-ac` = Actions package
+-   `fi-fo` = Forms package
+-   `fi-ta` = Tables package
+-   `fi-in` = Infolists package
+-   `fi-no` = Notifications package
+-   `fi-wi` = Widgets package
 
 ## 💾 Persistenza
 
 I temi vengono salvati in:
-- `storage/app/filament-custom-theme.json` (configurazione)
-- `storage/app/filament-custom-theme.css` (CSS generato)
+
+-   `storage/app/filament-custom-theme.json` (configurazione)
+-   `storage/app/filament-custom-theme.css` (CSS generato)
 
 ## 🔧 Risoluzione Problemi
 
 ### Tema non si applica
+
 1. Verifica che il `FilamentThemeOverrideServiceProvider` sia registrato
 2. Controlla i permessi di scrittura su `storage/app/`
 3. Pulisci la cache: `php artisan filament:cache-components`
 
 ### Page non appare
+
 1. Verifica che `ThemeDesignerPage::class` sia nella lista `pages()`
 2. Controlla che non ci siano conflitti di route
 3. Pulisci la cache config: `php artisan config:clear`
@@ -134,8 +143,9 @@ I temi vengono salvati in:
 ## 📖 Documentazione
 
 Per maggiori dettagli sui componenti supportati e personalizzazioni avanzate, consulta:
-- [Documentazione Hook Classes Filament](https://filamentphp.com/docs/4.x/styling/css-hooks)
-- Codice sorgente in `ThemeDesignerPage.php`
+
+-   [Documentazione Hook Classes Filament](https://filamentphp.com/docs/4.x/styling/css-hooks)
+-   Codice sorgente in `ThemeDesignerPage.php`
 
 ---
 
